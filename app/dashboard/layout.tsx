@@ -4,8 +4,9 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard", label: "概览", emoji: "📊" },
+  { href: "/dashboard",          label: "概览",   emoji: "📊" },
   { href: "/dashboard/cleaning", label: "数据清洗", emoji: "🧹" },
+  { href: "/dashboard/customer", label: "智能客服", emoji: "💬" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
