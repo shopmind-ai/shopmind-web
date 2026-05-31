@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -164,9 +165,13 @@ export default function ClusterPage() {
           <Card>
             <CardHeader className="pb-2"><CardTitle className="text-sm">最终结果</CardTitle></CardHeader>
             <CardContent>
-              <pre className="text-sm text-slate-700 whitespace-pre-wrap bg-slate-50 rounded p-3 max-h-80 overflow-y-auto">
-                {result.result}
-              </pre>
+              <div className="prose prose-sm max-w-none bg-slate-50 rounded p-3 max-h-80 overflow-y-auto
+                [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1
+                [&_a]:text-blue-600 [&_a]:underline
+                [&_hr]:my-2 [&_strong]:font-semibold
+                [&_ul]:pl-4 [&_li]:my-0.5 text-slate-700">
+                <ReactMarkdown>{result.result}</ReactMarkdown>
+              </div>
             </CardContent>
           </Card>
         </div>
