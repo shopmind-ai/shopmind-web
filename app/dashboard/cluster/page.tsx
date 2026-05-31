@@ -42,6 +42,7 @@ export default function ClusterPage() {
   const [result, setResult] = useState<ClusterResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [lightbox, setLightbox] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("cluster_result");
@@ -65,6 +66,27 @@ export default function ClusterPage() {
   }
 
   return (
+    <>
+    {/* Lightbox overlay */}
+    {lightbox && (
+      <div
+        className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center cursor-zoom-out"
+        onClick={() => setLightbox(null)}
+      >
+        <button
+          className="absolute top-4 right-4 text-white text-2xl leading-none bg-black/40 rounded-full w-9 h-9 flex items-center justify-center hover:bg-black/70"
+          onClick={() => setLightbox(null)}
+        >
+          ✕
+        </button>
+        <img
+          src={lightbox}
+          alt="预览"
+          className="max-w-[90vw] max-h-[90vh] object-contain rounded shadow-2xl"
+          onClick={e => e.stopPropagation()}
+        />
+      </div>
+    )}
     <div className="max-w-4xl space-y-6">
       <div>
         <h1 className="text-2xl font-bold">🤖 集群指挥</h1>
@@ -149,7 +171,8 @@ export default function ClusterPage() {
                         <img
                           src={img.image_url}
                           alt={img.description}
-                          className="w-full h-32 object-cover rounded bg-slate-100"
+                          className="w-full h-32 object-cover rounded bg-slate-100 cursor-zoom-in hover:opacity-90 transition-opacity"
+                          onClick={() => setLightbox(img.image_url)}
                           onError={e => { (e.target as HTMLImageElement).src = "https://placehold.co/200x150?text=Image"; }}
                         />
                         <p className="text-xs text-slate-500 line-clamp-1">{img.description}</p>
@@ -177,5 +200,6 @@ export default function ClusterPage() {
         </div>
       )}
     </div>
+    </>
   );
 }
