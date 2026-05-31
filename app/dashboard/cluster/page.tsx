@@ -123,6 +123,37 @@ export default function ClusterPage() {
             </Card>
           )}
 
+          {/* Render media images from steps when media_library_search was called */}
+          {result.steps.some(s => s.tool === "media_library_search") && (() => {
+            const mediaSteps = result.steps.filter(s => s.tool === "media_library_search");
+            const images: Array<{ asset_id: string; image_url: string; description: string; score: number }> = [];
+            mediaSteps.forEach(s => {
+              const out = s.output as { results?: typeof images };
+              if (out.results) images.push(...out.results);
+            });
+            return images.length > 0 ? (
+              <Card>
+                <CardHeader className="pb-2"><CardTitle className="text-sm">素材库检索结果（{images.length} 张）</CardTitle></CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-3 gap-3">
+                    {images.map((img) => (
+                      <div key={img.asset_id} className="space-y-1">
+                        <img
+                          src={img.image_url}
+                          alt={img.description}
+                          className="w-full h-32 object-cover rounded bg-slate-100"
+                          onError={e => { (e.target as HTMLImageElement).src = "https://placehold.co/200x150?text=Image"; }}
+                        />
+                        <p className="text-xs text-slate-500 line-clamp-1">{img.description}</p>
+                        <p className="text-xs text-slate-400">{(img.score * 100).toFixed(0)}% 匹配</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ) : null;
+          })()}
+
           <Card>
             <CardHeader className="pb-2"><CardTitle className="text-sm">最终结果</CardTitle></CardHeader>
             <CardContent>
