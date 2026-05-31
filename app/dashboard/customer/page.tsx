@@ -41,6 +41,24 @@ export default function CustomerPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const saved = sessionStorage.getItem("customer_state");
+    if (saved) {
+      try {
+        const s = JSON.parse(saved);
+        if (s.messages) setMessages(s.messages);
+        if (s.sessionId) setSessionId(s.sessionId);
+        if (s.customerId) setCustomerId(s.customerId);
+        if (s.lastIntent) setLastIntent(s.lastIntent);
+        if (s.lastUsage) setLastUsage(s.lastUsage);
+      } catch {}
+    }
+  }, []);
+  useEffect(() => {
+    if (messages.length > 0)
+      sessionStorage.setItem("customer_state", JSON.stringify({ messages, sessionId, customerId, lastIntent, lastUsage }));
+  }, [messages, sessionId, customerId, lastIntent, lastUsage]);
+
+  useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -83,7 +101,7 @@ export default function CustomerPage() {
             <option value="2">李娜 (ID: 2)</option>
             <option value="3">王芳 (ID: 3)</option>
           </select>
-          <Button variant="outline" size="sm" onClick={() => { setMessages([]); setSessionId(null); }}>
+          <Button variant="outline" size="sm" onClick={() => { setMessages([]); setSessionId(null); sessionStorage.removeItem("customer_state"); }}>
             清空对话
           </Button>
         </div>

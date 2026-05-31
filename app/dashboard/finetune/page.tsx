@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +29,19 @@ export default function FinetunePage() {
   const [compareResult, setCompareResult] = useState<CompareResult | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const p = sessionStorage.getItem("finetune_prepare");
+    const c = sessionStorage.getItem("finetune_compare");
+    if (p) { try { setPrepareResult(JSON.parse(p)); } catch {} }
+    if (c) { try { setCompareResult(JSON.parse(c)); } catch {} }
+  }, []);
+  useEffect(() => {
+    if (prepareResult) sessionStorage.setItem("finetune_prepare", JSON.stringify(prepareResult));
+  }, [prepareResult]);
+  useEffect(() => {
+    if (compareResult) sessionStorage.setItem("finetune_compare", JSON.stringify(compareResult));
+  }, [compareResult]);
 
   async function handlePrepare() {
     setLoading("prepare"); setError("");

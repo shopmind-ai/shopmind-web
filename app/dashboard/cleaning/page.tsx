@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +22,14 @@ export default function CleaningPage() {
   const [result, setResult] = useState<CleanResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("cleaning_result");
+    if (saved) { try { setResult(JSON.parse(saved)); } catch {} }
+  }, []);
+  useEffect(() => {
+    if (result) sessionStorage.setItem("cleaning_result", JSON.stringify(result));
+  }, [result]);
 
   async function handleClean() {
     setLoading(true);

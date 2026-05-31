@@ -34,7 +34,14 @@ export default function MediaPage() {
   const [lastUsage, setLastUsage] = useState<{ input_tokens: number; output_tokens: number } | null>(null);
   const [error, setError] = useState("");
 
-  useEffect(() => { loadAssets(); }, []);
+  useEffect(() => {
+    const saved = sessionStorage.getItem("media_assets");
+    if (saved) { try { setAssets(JSON.parse(saved)); return; } catch {} }
+    loadAssets();
+  }, []);
+  useEffect(() => {
+    if (assets.length > 0) sessionStorage.setItem("media_assets", JSON.stringify(assets));
+  }, [assets]);
 
   async function loadAssets() {
     setLoading(true);
