@@ -193,7 +193,30 @@ export default function ClusterPage() {
                 [&_a]:text-blue-600 [&_a]:underline
                 [&_hr]:my-2 [&_strong]:font-semibold
                 [&_ul]:pl-4 [&_li]:my-0.5 text-slate-700">
-                <ReactMarkdown>{result.result}</ReactMarkdown>
+                <ReactMarkdown
+                  components={{
+                    a: ({ href, children }) => {
+                      const isImage = href && (
+                        /\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i.test(href) ||
+                        href.includes("unsplash.com") ||
+                        href.includes("images.")
+                      );
+                      if (isImage && href) {
+                        return (
+                          <span
+                            className="text-blue-600 underline cursor-pointer"
+                            onClick={() => setLightbox(href)}
+                          >
+                            {children}
+                          </span>
+                        );
+                      }
+                      return <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">{children}</a>;
+                    }
+                  }}
+                >
+                  {result.result}
+                </ReactMarkdown>
               </div>
             </CardContent>
           </Card>
