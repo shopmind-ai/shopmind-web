@@ -4,13 +4,14 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard",          label: "概览",   emoji: "📊" },
-  { href: "/dashboard/cleaning", label: "数据清洗", emoji: "🧹" },
-  { href: "/dashboard/customer", label: "智能客服", emoji: "💬" },
-  { href: "/dashboard/media",    label: "素材库",   emoji: "🖼️" },
-  { href: "/dashboard/social",   label: "内容创作", emoji: "✍️" },
-  { href: "/dashboard/clip",     label: "直播切片", emoji: "✂️" },
+  { href: "/dashboard",           label: "概览",   emoji: "📊" },
+  { href: "/dashboard/cleaning",  label: "数据清洗", emoji: "🧹" },
+  { href: "/dashboard/customer",  label: "智能客服", emoji: "💬" },
+  { href: "/dashboard/media",     label: "素材库",   emoji: "🖼️" },
+  { href: "/dashboard/social",    label: "内容创作", emoji: "✍️" },
+  { href: "/dashboard/clip",      label: "直播切片", emoji: "✂️" },
   { href: "/dashboard/training",  label: "销售培训", emoji: "🎯" },
+  { href: "/dashboard/cluster",   label: "集群指挥", emoji: "🤖" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
