@@ -9,6 +9,7 @@ const navItems = [
   { href: "/dashboard/customer", label: "智能客服", emoji: "💬" },
   { href: "/dashboard/media",    label: "素材库",   emoji: "🖼️" },
   { href: "/dashboard/social",   label: "内容创作", emoji: "✍️" },
+  { href: "/dashboard/clip",     label: "直播切片", emoji: "✂️" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
