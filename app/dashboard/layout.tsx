@@ -18,8 +18,8 @@ const navItems = [
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-56 bg-slate-900 text-white flex flex-col">
+    <div className="flex h-screen overflow-hidden">
+      <aside className="w-56 bg-slate-900 text-white flex flex-col flex-shrink-0 overflow-y-auto">
         <div className="p-4 border-b border-slate-700">
           <h1 className="font-bold text-lg">ShopMind AI</h1>
           <p className="text-slate-400 text-xs">电商智能运营平台</p>
@@ -42,7 +42,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           ))}
         </nav>
       </aside>
-      <main className="flex-1 bg-slate-50 p-6">{children}</main>
+      <main className="flex-1 bg-slate-50 p-6 overflow-y-auto">{children}</main>
     </div>
   );
 }
