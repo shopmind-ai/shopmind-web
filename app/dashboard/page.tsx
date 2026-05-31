@@ -6,7 +6,7 @@ export default function DashboardPage() {
       <div className="mt-6 grid grid-cols-2 gap-4">
         <div className="border rounded-lg p-4 bg-white">
           <p className="text-slate-500 text-sm">已接入 Agent</p>
-          <p className="text-3xl font-bold mt-1">5 / 8</p>
+          <p className="text-3xl font-bold mt-1">6 / 8</p>
         </div>
         <div className="border rounded-lg p-4 bg-white">
           <p className="text-slate-500 text-sm">平台状态</p>
