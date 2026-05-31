@@ -131,12 +131,19 @@ export default function ClusterPage() {
               const out = s.output as { results?: typeof images };
               if (out.results) images.push(...out.results);
             });
-            return images.length > 0 ? (
+            // Deduplicate by asset_id
+            const seen = new Set<string>();
+            const unique = images.filter(img => {
+              if (seen.has(img.asset_id)) return false;
+              seen.add(img.asset_id);
+              return true;
+            });
+            return unique.length > 0 ? (
               <Card>
-                <CardHeader className="pb-2"><CardTitle className="text-sm">素材库检索结果（{images.length} 张）</CardTitle></CardHeader>
+                <CardHeader className="pb-2"><CardTitle className="text-sm">素材库检索结果（{unique.length} 张）</CardTitle></CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-3 gap-3">
-                    {images.map((img) => (
+                    {unique.map((img) => (
                       <div key={img.asset_id} className="space-y-1">
                         <img
                           src={img.image_url}
