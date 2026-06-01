@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -17,9 +18,12 @@ const navItems = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="flex h-screen overflow-hidden">
-      <aside className="w-56 bg-slate-900 text-white flex flex-col flex-shrink-0 overflow-y-auto">
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-56 bg-slate-900 text-white flex-col flex-shrink-0 overflow-y-auto">
         <div className="p-4 border-b border-slate-700">
           <h1 className="font-bold text-lg">ShopMind AI</h1>
           <p className="text-slate-400 text-xs">电商智能运营平台</p>
@@ -42,7 +46,56 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           ))}
         </nav>
       </aside>
-      <main className="flex-1 bg-slate-50 p-6 overflow-y-auto">{children}</main>
+
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Mobile top bar */}
+        <header className="md:hidden flex items-center justify-between bg-slate-900 text-white px-4 py-3 flex-shrink-0">
+          <span className="font-bold">ShopMind AI</span>
+          <button
+            onClick={() => setMenuOpen(o => !o)}
+            className="text-slate-300 p-1"
+            aria-label="菜单"
+          >
+            {menuOpen ? "✕" : "☰"}
+          </button>
+        </header>
+
+        {/* Mobile drawer */}
+        {menuOpen && (
+          <div className="md:hidden absolute inset-0 z-50 flex">
+            <nav className="w-64 bg-slate-900 text-white flex flex-col overflow-y-auto">
+              <div className="p-4 border-b border-slate-700 flex justify-between items-center">
+                <div>
+                  <h1 className="font-bold text-lg">ShopMind AI</h1>
+                  <p className="text-slate-400 text-xs">电商智能运营平台</p>
+                </div>
+                <button onClick={() => setMenuOpen(false)} className="text-slate-300 text-xl">✕</button>
+              </div>
+              <div className="flex-1 p-3 space-y-1">
+                {navItems.map(item => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
+                      pathname === item.href
+                        ? "bg-slate-700 text-white"
+                        : "text-slate-300 hover:bg-slate-800"
+                    )}
+                  >
+                    <span>{item.emoji}</span>
+                    <span>{item.label}</span>
+                  </Link>
+                ))}
+              </div>
+            </nav>
+            <div className="flex-1 bg-black/50" onClick={() => setMenuOpen(false)} />
+          </div>
+        )}
+
+        <main className="flex-1 bg-slate-50 p-4 md:p-6 overflow-y-auto">{children}</main>
+      </div>
     </div>
   );
 }
