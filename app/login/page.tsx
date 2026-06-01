@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
-      <Card className="w-[380px]">
+      <Card className="w-full max-w-[380px] mx-4">
         <CardHeader>
           <CardTitle className="text-2xl text-center">ShopMind AI</CardTitle>
           <p className="text-center text-slate-500 text-sm">电商智能运营平台</p>
